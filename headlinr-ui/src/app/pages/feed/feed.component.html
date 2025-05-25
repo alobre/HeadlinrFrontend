@@ -1,0 +1,23 @@
+<nz-list nzItemLayout="vertical">
+  @for (item of feedItems.items; track item) {
+    <nz-list-item>
+      <nz-list-item-meta>
+        <nz-list-item-meta-title>
+          <a [href]="item.link" target="_blank">{{ item.title }}</a>
+        </nz-list-item-meta-title>
+        <nz-list-item-meta-description>
+          {{ item.description }}
+        </nz-list-item-meta-description>
+      </nz-list-item-meta>
+
+      <div style="margin: 8px 0;">
+        <strong>Date:</strong> {{ item.pubDate }} |
+        <strong>Credit:</strong> {{ item.mrssCredit || item.inlineCredit }}
+      </div>
+
+      <!-- <nz-list-item-extra *ngIf="getImageUrl(item)">
+        <img width="272" [src]="getImageUrl(item)" alt="news image" />
+      </nz-list-item-extra> -->
+    </nz-list-item>
+  }
+</nz-list>
