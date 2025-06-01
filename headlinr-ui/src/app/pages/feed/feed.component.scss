@@ -1,0 +1,47 @@
+/* src/app/pages/news-dashboard/news-dashboard.component.scss */
+
+.dashboard-container {
+  padding: 16px;
+
+  h1 {
+    margin-bottom: 16px;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+
+    button {
+      margin-right: 16px;
+    }
+
+    .error {
+      color: #ff4d4f; /* red‐6 from ng‐zorro palette */
+      font-weight: 500;
+    }
+  }
+
+  nz-spin {
+    display: block;
+    text-align: center;
+    margin: 40px 0;
+  }
+
+  .news-card {
+    margin-bottom: 16px;
+
+    .card-image {
+      overflow: hidden;
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .card-actions {
+      text-align: right;
+      margin-top: 8px;
+    }
+  }
+}

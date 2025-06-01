@@ -1,23 +1,73 @@
-<nz-list nzItemLayout="vertical">
-  @for (item of feedItems; track item) {
-    <nz-list-item>
-      <nz-list-item-meta>
-        <nz-list-item-meta-title>
-          <a [href]="item.link" target="_blank">{{ item.title }}</a>
-        </nz-list-item-meta-title>
-        <nz-list-item-meta-description>
-          {{ item.description }}
-        </nz-list-item-meta-description>
-      </nz-list-item-meta>
+<!-- src/app/pages/feed/feed.component.html -->
 
-      <div style="margin: 8px 0;">
-        <strong>Date:</strong> {{ item.pubDate }} |
-        <strong>Credit:</strong> {{ item.mrssCredit || item.inlineCredit }}
-      </div> -->
+<div class="feed-wrapper">
+  <h2>Latest News</h2>
 
-      <!-- <nz-list-item-extra *ngIf="getImageUrl(item)">
-        <img width="272" [src]="getImageUrl(item)" alt="news image" />
-      </nz-list-item-extra>-->
-    </nz-list-item>
-  }
-</nz-list>
+  <!-- Error Display -->
+  <nz-alert
+    *ngIf="errorMsg"
+    nzType="error"
+    [nzMessage]="errorMsg"
+    nzShowIcon
+    class="error-alert"
+  ></nz-alert>
+
+  <!-- Loading Indicator -->
+  <nz-spin
+    *ngIf="soapItems === null && !errorMsg"
+    nzTip="Loading news…"
+    class="loading-spinner"
+  ></nz-spin>
+
+  <!-- "No items" State -->
+  <div
+    *ngIf="soapItems !== null && soapItems.length === 0 && !errorMsg"
+    class="no-items"
+  >
+    No news items found.
+  </div>
+
+  <!-- Grid of Cards -->
+  <nz-row
+    *ngIf="soapItems && soapItems.length > 0"
+    [nzGutter]="16"
+    class="card-grid"
+  >
+    <nz-col
+      *ngFor="let item of soapItems"
+      [nzXs]="24"
+      [nzSm]="12"
+      [nzMd]="8"
+      [nzLg]="6"
+      [nzXl]="6"
+    >
+      <nz-card nzHoverable class="news-card">
+        <!-- Cover / Thumbnail -->
+        <ng-container *ngIf="getImageUrl(item) as imageUrl; else noImage">
+          <img nz-card-cover [src]="imageUrl" alt="thumbnail" class="card-image" />
+        </ng-container>
+        <ng-template #noImage>
+          <div class="card-image placeholder">
+            <i nz-icon nzType="file-image" nzTheme="outline"></i>
+          </div>
+        </ng-template>
+
+        <!-- Card Meta: Title & Date -->
+        <nz-card-meta
+          [nzTitle]="item.Title"
+          [nzDescription]="item.PubDate | date: 'medium'"
+        ></nz-card-meta>
+
+        <!-- Short Excerpt from Description (plain text) -->
+        <p class="card-excerpt">{{ getExcerpt(item.Description) }}</p>
+
+        <!-- Read More Button -->
+        <div class="card-actions">
+          <button nz-button nzType="link" (click)="openLink(item.Link)">
+            Read more <i nz-icon nzType="arrow-right" nzTheme="outline"></i>
+          </button>
+        </div>
+      </nz-card>
+    </nz-col>
+  </nz-row>
+</div>
