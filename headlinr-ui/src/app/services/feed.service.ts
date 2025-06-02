@@ -12,4 +12,10 @@ export class FeedService {
     
     return response;
   }
+
+  getById(id: string): Observable<Item>{
+    const response = this.http.get<Item>(`https://localhost:7152/api/News/GetNewsById/${id}`);
+    
+    return response;
+  }
 }

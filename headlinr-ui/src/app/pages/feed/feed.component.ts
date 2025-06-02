@@ -72,10 +72,19 @@ export class FeedComponent implements OnInit {
     return text.slice(0, length - 1).trim() + '…';
   }
 
-  /**
-   * Opens the given URL in a new tab.
-   */
   openLink(url: string): void {
     window.open(url, '_blank');
+  }
+
+  openArticle(id: string){
+    this.soapService.getById(id).subscribe({
+      next: (item) => {
+        console.log(item)
+      },
+      error: (err) => {
+        console.error('SOAP article error:', err);
+        this.errorMsg = 'Could not find article';
+      }
+    });
   }
 }
